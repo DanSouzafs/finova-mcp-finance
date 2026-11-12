@@ -20,10 +20,15 @@ interface FinanceContextType {
   goals: Goal[];
   loading: boolean;
   error: Error | null;
+  showAuthScreen: boolean;
+  setShowAuthScreen: (val: boolean) => void;
   saveTransaction: (t: Omit<Transaction, "id">, id?: string) => Promise<void>;
   removeTransaction: (id: string) => Promise<void>;
   saveGoal: (g: Omit<Goal, "id">, id?: string) => Promise<void>;
   removeGoal: (id: string) => Promise<void>;
+  signIn: (email: string, password?: string) => Promise<boolean>;
+  signUp: (name: string, email: string, password?: string) => Promise<boolean>;
+  signInDemo: () => void;
   signOut: () => Promise<void>;
   resetToDefault: () => void;
 }
@@ -37,8 +42,18 @@ const STORAGE_KEYS = {
   USER: "finova_user_v1",
 };
 
+export const DEFAULT_DEMO_USER: UserProfile = {
+  id: "usr-demo-01",
+  email: "daniel@finova.app",
+  user_metadata: {
+    full_name: "Daniel Silva",
+  },
+};
+
 export function FinanceProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
+  const [showAuthScreen, setShowAuthScreen] = useState(false);
+
   const [light, setLightState] = useState(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(STORAGE_KEYS.THEME);
@@ -48,13 +63,18 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   });
 
   const [user, setUser] = useState<UserProfile | null>(() => {
-    return {
-      id: "usr-demo-01",
-      email: "daniel@finova.app",
-      user_metadata: {
-        full_name: "Daniel Silva",
-      },
-    };
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEYS.USER);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.email) return parsed;
+        }
+      } catch (e) {
+        console.error("Error reading cached user", e);
+      }
+    }
+    return DEFAULT_DEMO_USER;
   });
 
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
@@ -105,6 +125,16 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      if (user) {
+        localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
+      } else {
+        localStorage.removeItem(STORAGE_KEYS.USER);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       localStorage.setItem(STORAGE_KEYS.THEME, light ? "light" : "dark");
       if (light) {
         document.documentElement.classList.add("light");
@@ -119,6 +149,49 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
   const setLight = (val: boolean) => {
     setLightState(val);
   };
+
+  async function signIn(email: string, _password?: string): Promise<boolean> {
+    const formattedEmail = email.trim().toLowerCase();
+    let nameGuess = formattedEmail.split("@")[0] || "Usuário";
+    nameGuess = nameGuess.charAt(0).toUpperCase() + nameGuess.slice(1);
+
+    const newUser: UserProfile = {
+      id: `usr-${Date.now()}`,
+      email: formattedEmail,
+      user_metadata: {
+        full_name: nameGuess,
+      },
+    };
+
+    setUser(newUser);
+    setShowAuthScreen(false);
+    toast.success(`Bem-vindo de volta, ${nameGuess}!`);
+    return true;
+  }
+
+  async function signUp(name: string, email: string, _password?: string): Promise<boolean> {
+    const formattedName = name.trim();
+    const formattedEmail = email.trim().toLowerCase();
+
+    const newUser: UserProfile = {
+      id: `usr-${Date.now()}`,
+      email: formattedEmail,
+      user_metadata: {
+        full_name: formattedName,
+      },
+    };
+
+    setUser(newUser);
+    setShowAuthScreen(false);
+    toast.success(`Conta criada com sucesso! Bem-vindo ao finova, ${formattedName}.`);
+    return true;
+  }
+
+  function signInDemo() {
+    setUser(DEFAULT_DEMO_USER);
+    setShowAuthScreen(false);
+    toast.success("Acessando com a conta demonstrativa de Daniel Silva!");
+  }
 
   async function saveTransaction(t: Omit<Transaction, "id">, id?: string) {
     if (id) {
@@ -164,12 +237,14 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
 
   async function signOut() {
     setUser(null);
+    setShowAuthScreen(true);
     toast.info("Você saiu da conta.");
   }
 
   function resetToDefault() {
     setTransactions(demoTransactions);
     setGoals(demoGoals);
+    setUser(DEFAULT_DEMO_USER);
     localStorage.removeItem(STORAGE_KEYS.TXS);
     localStorage.removeItem(STORAGE_KEYS.GOALS);
     toast.success("Dados restaurados para o padrão de demonstração!");
@@ -184,10 +259,15 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     goals,
     loading: false,
     error: null,
+    showAuthScreen,
+    setShowAuthScreen,
     saveTransaction,
     removeTransaction,
     saveGoal,
     removeGoal,
+    signIn,
+    signUp,
+    signInDemo,
     signOut,
     resetToDefault,
   };

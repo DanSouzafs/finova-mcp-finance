@@ -10,12 +10,12 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "default", asChild = false, children, ...props }, ref) => {
     const variantStyles = {
-      default: "bg-emerald-500 text-black hover:bg-emerald-400 font-semibold shadow-sm hover:shadow-emerald-500/20 active:scale-[0.98]",
-      destructive: "bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 active:scale-[0.98]",
-      outline: "border border-border/70 bg-secondary/50 text-foreground hover:bg-secondary hover:text-foreground active:scale-[0.98]",
-      secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:scale-[0.98]",
-      ghost: "text-muted-foreground hover:text-foreground hover:bg-muted/60 active:scale-[0.98]",
-      link: "text-emerald-400 underline-offset-4 hover:underline p-0 h-auto font-normal",
+      default: "btn-default bg-emerald-500 text-slate-950 hover:bg-emerald-400 font-semibold shadow-xs hover:shadow-emerald-500/20 active:scale-[0.98]",
+      destructive: "btn-destructive bg-rose-500/10 text-rose-500 border border-rose-500/30 hover:bg-rose-500/20 active:scale-[0.98]",
+      outline: "btn-outline border border-border bg-card text-foreground hover:bg-secondary hover:text-foreground active:scale-[0.98] shadow-xs",
+      secondary: "btn-secondary bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border/80 active:scale-[0.98] shadow-xs",
+      ghost: "btn-ghost text-muted-foreground hover:text-foreground hover:bg-muted/70 active:scale-[0.98]",
+      link: "btn-link text-emerald-500 underline-offset-4 hover:underline p-0 h-auto font-normal",
     };
 
     const sizeStyles = {

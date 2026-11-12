@@ -15,12 +15,12 @@ import {
 import {
   LayoutDashboard,
   Bot,
+  User,
   ArrowLeftRight,
   Target,
   ChartNoAxesCombined,
   Settings,
   Wallet,
-  FolderArchive,
   Plus,
   Search,
   Bell,
@@ -124,8 +124,10 @@ const chartColors = [
 
 export function Workspace({
   view: initialView = "overview",
+  onOpenAuth,
 }: {
   view?: ViewType;
+  onOpenAuth?: () => void;
 }) {
   const f = useFinance();
   const [currentView, setCurrentView] = useState<ViewType>(initialView);
@@ -497,6 +499,15 @@ export function Workspace({
                   <RotateCcw size={16} />
                   Restaurar dados demo
                 </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => {
+                    if (onOpenAuth) onOpenAuth();
+                    else f.setShowAuthScreen(true);
+                  }}
+                >
+                  <User size={16} />
+                  {f.user ? "Alternar ou Criar conta" : "Entrar ou Criar conta"}
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {f.user ? (
                   <DropdownMenuItem
@@ -511,11 +522,11 @@ export function Workspace({
                 ) : (
                   <DropdownMenuItem
                     onSelect={() => {
-                      toast.success("Você já está usando a conta demonstrativa!");
+                      f.setShowAuthScreen(true);
                     }}
                   >
                     <CheckCircle2 size={16} />
-                    Conta de Demonstração Ativa
+                    Entrar na minha conta
                   </DropdownMenuItem>
                 )}
               </DropdownMenuContent>
@@ -559,18 +570,6 @@ export function Workspace({
             </div>
 
             <div className="heading-actions">
-              <a
-                href="/finova-projeto.zip"
-                download="finova-projeto.zip"
-                className="no-underline inline-flex"
-                title="Baixar todos os arquivos do código em formato .ZIP"
-              >
-                <Button variant="outline" className="gap-2 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10">
-                  <FolderArchive size={16} />
-                  Baixar Projeto (.ZIP)
-                </Button>
-              </a>
-
               {currentView !== "chat" ? (
                 <>
                   <Button variant="secondary" onClick={() => setCurrentView("chat")} className="gap-2">
@@ -1280,11 +1279,11 @@ export function Workspace({
                   <div className="settings-info-grid">
                     <div>
                       <span className="info-label">Nome completo</span>
-                      <strong>Daniel Silva</strong>
+                      <strong>{f.user?.user_metadata?.full_name || name}</strong>
                     </div>
                     <div>
                       <span className="info-label">E-mail de acesso</span>
-                      <strong>{f.user?.email || "daniel@finova.app"}</strong>
+                      <strong>{f.user?.email || "demonstracao@finova.app"}</strong>
                     </div>
                     <div>
                       <span className="info-label">Plano finova</span>
@@ -1295,12 +1294,18 @@ export function Workspace({
                       <strong>BRL (Real Brasileiro — R$)</strong>
                     </div>
                   </div>
-                  <div className="mt-6 pt-4 border-t border-border flex gap-3">
+                  <div className="mt-6 pt-4 border-t border-border flex flex-wrap gap-3">
+                    <Button
+                      variant="default"
+                      onClick={() => f.setShowAuthScreen(true)}
+                    >
+                      <User size={15} /> {f.user ? "Alternar ou Criar outra conta" : "Entrar ou Criar conta"}
+                    </Button>
                     <Button
                       variant="outline"
                       onClick={() => f.resetToDefault()}
                     >
-                      <RotateCcw size={15} /> Restaurar dados iniciais
+                      <RotateCcw size={15} /> Restaurar dados demo
                     </Button>
                   </div>
                 </div>
