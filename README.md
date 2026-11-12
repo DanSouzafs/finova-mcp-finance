@@ -85,7 +85,7 @@ O **Finova** foi concebido para entregar clareza, velocidade e inteligência no 
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/finova.git
+   git clone https://github.com/DanSouzafs/finova.git
    cd finova
    ```
 
