@@ -1,307 +1,1756 @@
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  Bell,
-  ChevronDown,
-  CreditCard,
-  Landmark,
-  MoonStar,
-  Search,
-  ShieldCheck,
-  Target,
-  TrendingUp,
-  Wallet,
-} from 'lucide-react';
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-import { useFinance } from './provider';
+@import "tailwindcss";
 
-const donutData = [
-  { name: 'Housing', value: 28, color: '#22c55e' },
-  { name: 'Food', value: 22, color: '#14b8a6' },
-  { name: 'Transport', value: 18, color: '#f59e0b' },
-  { name: 'Lifestyle', value: 32, color: '#8b5cf6' },
-];
+@layer base {
+  :root {
+    --background: #090d16;
+    --foreground: #f1f5f9;
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+    --popover: #0f172a;
+    --popover-foreground: #f8fafc;
+    --primary: #10b981;
+    --primary-foreground: #022c22;
+    --secondary: #1e293b;
+    --secondary-foreground: #f1f5f9;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #1e293b;
+    --accent-foreground: #f1f5f9;
+    --destructive: #ef4444;
+    --destructive-foreground: #f8fafc;
+    --border: rgba(255, 255, 255, 0.08);
+    --input: rgba(255, 255, 255, 0.08);
+    --ring: #10b981;
+    --radius: 0.75rem;
 
-export function Workspace() {
-  const { accounts, transactions, budgetItems, goals, cashFlow, metricCards } = useFinance();
+    --violet: #8b5cf6;
+    --amber: #f59e0b;
+    --blue: #3b82f6;
+    --rose: #f43f5e;
+  }
 
-  return (
-    <div className="min-h-screen bg-[#020817] px-4 py-8 text-slate-100 md:px-8">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-8 flex flex-col gap-4 rounded-[28px] border border-white/10 bg-slate-950/60 p-4 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300 shadow-lg shadow-emerald-500/10">
-              <Landmark className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.25em] text-slate-400">Finance OS</p>
-              <h1 className="text-2xl font-semibold">Finova</h1>
-            </div>
-          </div>
+  .finance-theme.light {
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #059669;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #1e293b;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #f1f5f9;
+    --accent-foreground: #1e293b;
+    --border: rgba(0, 0, 0, 0.08);
+    --input: rgba(0, 0, 0, 0.08);
+  }
+}
 
-          <div className="flex items-center gap-3">
-            <div className="hidden items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-300 md:flex">
-              <Search className="h-4 w-4 text-slate-400" />
-              Search transactions
-            </div>
-            <button className="rounded-full border border-slate-700 bg-slate-900/80 p-2.5 text-slate-200">
-              <Bell className="h-4 w-4" />
-            </button>
-            <button className="rounded-full border border-slate-700 bg-slate-900/80 p-2.5 text-slate-200">
-              <MoonStar className="h-4 w-4" />
-            </button>
-          </div>
-        </header>
+body {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
 
-        <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {metricCards.map((card) => (
-            <div key={card.label} className="rounded-3xl border border-white/10 bg-[#111827]/80 p-4 shadow-xl shadow-slate-950/20">
-              <div className="mb-3 flex items-center justify-between text-slate-400">
-                <span className="text-sm">{card.label}</span>
-                <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[10px] font-medium text-emerald-300">
-                  {card.change}
-                </span>
-              </div>
-              <div className="text-2xl font-semibold text-white">{card.value}</div>
-            </div>
-          ))}
-        </section>
+/* ==========================================================================
+   APP LAYOUT & SIDEBAR
+   ========================================================================== */
 
-        <section className="mb-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Overview</p>
-                <h2 className="mt-2 text-2xl font-semibold">Cash flow</h2>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-300">
-                <TrendingUp className="h-4 w-4" />
-                +18.2% YoY
-              </div>
-            </div>
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={cashFlow}>
-                  <defs>
-                    <linearGradient id="incomeFill" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#34d399" stopOpacity={0.5} />
-                      <stop offset="100%" stopColor="#34d399" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="expenseFill" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#a78bfa" stopOpacity={0.4} />
-                      <stop offset="100%" stopColor="#a78bfa" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid stroke="#1f2937" vertical={false} />
-                  <XAxis dataKey="month" stroke="#64748b" tickLine={false} axisLine={false} />
-                  <YAxis stroke="#64748b" tickLine={false} axisLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#020817',
-                      border: '1px solid rgba(148, 163, 184, 0.2)',
-                      borderRadius: '14px',
-                    }}
-                  />
-                  <Area type="monotone" dataKey="income" stroke="#34d399" fill="url(#incomeFill)" strokeWidth={3} />
-                  <Area type="monotone" dataKey="expense" stroke="#8b5cf6" fill="url(#expenseFill)" strokeWidth={3} />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 40;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease;
+}
 
-          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Breakdown</p>
-                <h2 className="mt-2 text-2xl font-semibold">Expense mix</h2>
-              </div>
-            </div>
+.app-layout.is-collapsed .sidebar {
+  width: 76px;
+  min-width: 76px;
+  padding: 20px 10px;
+}
 
-            <div className="h-72">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie data={donutData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={95} paddingAngle={4}>
-                    {donutData.map((entry) => (
-                      <cell key={entry.name} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value: number) => `${value}%`}
-                    contentStyle={{
-                      backgroundColor: '#020817',
-                      border: '1px solid rgba(148, 163, 184, 0.2)',
-                      borderRadius: '14px',
-                    }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 35;
+}
 
-            <div className="mt-2 space-y-2">
-              {donutData.map((item) => (
-                <div key={item.name} className="flex items-center justify-between text-sm text-slate-300">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
-                    {item.name}
-                  </div>
-                  <span>{item.value}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--foreground);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  padding: 6px 8px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
 
-        <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Transactions</p>
-                <h2 className="mt-2 text-2xl font-semibold">Recent activity</h2>
-              </div>
-              <button className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-200">
-                This month <ChevronDown className="h-4 w-4" />
-              </button>
-            </div>
+.brand-symbol {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #022c22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  flex-shrink: 0;
+}
 
-            <div className="overflow-hidden rounded-2xl border border-slate-800">
-              <table className="min-w-full divide-y divide-slate-800 text-left">
-                <thead className="bg-slate-950/80 text-xs uppercase tracking-[0.2em] text-slate-400">
-                  <tr>
-                    <th className="px-4 py-3">Name</th>
-                    <th className="px-4 py-3">Date</th>
-                    <th className="px-4 py-3">Type</th>
-                    <th className="px-4 py-3">Status</th>
-                    <th className="px-4 py-3 text-right">Amount</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800 text-sm text-slate-200">
-                  {transactions.map((transaction) => (
-                    <tr key={transaction.id} className="bg-slate-900/30 hover:bg-slate-900/60">
-                      <td className="px-4 py-3">{transaction.description}</td>
-                      <td className="px-4 py-3 text-slate-400">{transaction.date}</td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs ${transaction.type === 'income' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-rose-500/10 text-rose-300'}`}>
-                          {transaction.type === 'income' ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-                          {transaction.type}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-slate-300">{transaction.status}</td>
-                      <td className={`px-4 py-3 text-right font-medium ${transaction.amount > 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
-                        {transaction.amount > 0 ? '+' : '-'}R${Math.abs(transaction.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+.brand-dot {
+  color: #10b981;
+}
 
-          <div className="space-y-6">
-            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Accounts</p>
-                  <h2 className="mt-2 text-2xl font-semibold">Balance</h2>
-                </div>
-                <div className="rounded-full bg-emerald-500/10 p-2 text-emerald-300">
-                  <Wallet className="h-4 w-4" />
-                </div>
-              </div>
+.sidebar-section {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground);
+  padding: 0 12px 10px 12px;
+}
 
-              <div className="space-y-3">
-                {accounts.map((account) => (
-                  <div key={account.id} className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
-                    <div className="flex items-center gap-3">
-                      <div className="rounded-xl bg-slate-800 p-2 text-slate-200">
-                        <CreditCard className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-white">{account.name}</p>
-                        <p className="text-xs text-slate-400">{account.type}</p>
-                      </div>
-                    </div>
-                    <span className={`font-semibold ${account.balance >= 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
-                      {account.balance >= 0 ? 'R$' : '-R$'} {Math.abs(account.balance).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
-            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Budgets</p>
-                  <h2 className="mt-2 text-2xl font-semibold">Spending</h2>
-                </div>
-                <div className="rounded-full bg-violet-500/10 p-2 text-violet-300">
-                  <ShieldCheck className="h-4 w-4" />
-                </div>
-              </div>
+.nav-item {
+  width: 100%;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
 
-              <div className="space-y-4">
-                {budgetItems.map((item) => (
-                  <div key={item.category}>
-                    <div className="mb-1 flex items-center justify-between text-sm text-slate-300">
-                      <span>{item.category}</span>
-                      <span>{item.spent.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} / {item.limit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                    </div>
-                    <div className="h-2.5 rounded-full bg-slate-800">
-                      <div
-                        className="h-2.5 rounded-full"
-                        style={{ width: `${Math.min((item.spent / item.limit) * 100, 100)}%`, backgroundColor: item.color }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+.nav-item:hover {
+  background: var(--secondary);
+  color: var(--foreground);
+}
 
-            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Goals</p>
-                  <h2 className="mt-2 text-2xl font-semibold">Dream path</h2>
-                </div>
-                <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-300">
-                  <Target className="h-4 w-4" />
-                </div>
-              </div>
+.nav-item.active {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.2);
+  font-weight: 600;
+}
 
-              <div className="space-y-4">
-                {goals.map((goal) => (
-                  <div key={goal.title} className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/60">
-                    <div className="h-28 bg-cover bg-center" style={{ backgroundImage: `url(${goal.image})` }} />
-                    <div className="p-3">
-                      <div className="mb-2 flex items-center justify-between">
-                        <h3 className="font-medium text-white">{goal.title}</h3>
-                        <span className="text-xs text-slate-400">{Math.round((goal.current / goal.target) * 100)}%</span>
-                      </div>
-                      <div className="h-2.5 rounded-full bg-slate-800">
-                        <div className="h-2.5 rounded-full" style={{ width: `${Math.min((goal.current / goal.target) * 100, 100)}%`, backgroundColor: goal.accent }} />
-                      </div>
-                      <div className="mt-2 text-sm text-slate-300">
-                        R$ {goal.current.toLocaleString('pt-BR')} / R$ {goal.target.toLocaleString('pt-BR')}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+.collapse-button {
+  margin-top: 14px;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.app-layout.is-collapsed .collapse-button,
+.app-layout.is-collapsed .brand,
+.app-layout.is-collapsed .nav-item {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.health-note {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border: 1px solid var(--border);
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+}
+
+.finance-theme.light .health-note {
+  background: #f1f5f9;
+}
+
+.health-note .small-icon {
+  color: #10b981;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.health-note strong {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.health-note p {
+  color: var(--muted-foreground);
+  line-height: 1.4;
+  margin: 0 0 10px 0;
+  font-size: 0.75rem;
+}
+
+.secure-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.secure-label span {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.sidebar-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  padding: 4px 6px 0 6px;
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   MAIN CONTENT & TOPBAR
+   ========================================================================== */
+
+.main-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  height: 68px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.breadcrumb span {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.global-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: var(--muted-foreground);
+  width: 250px;
+  transition: all 0.2s ease;
+}
+
+.global-search:focus-within {
+  border-color: #10b981;
+  width: 290px;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+}
+
+.global-search input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--foreground);
+  font-size: 0.82rem;
+  width: 100%;
+}
+
+.global-search input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.kbd-shortcut {
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.notification-icon {
+  position: relative;
+  color: var(--muted-foreground);
+}
+
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  background: #f43f5e;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f43f5e;
+}
+
+.notification-menu {
+  width: 320px;
+  padding: 12px;
+}
+
+.notification-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.notification-header .badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: rgba(244, 63, 94, 0.15);
+  color: #f43f5e;
+  font-weight: 600;
+}
+
+.notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.no-notifications {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  padding: 16px 0;
+}
+
+.header-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.account-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 10px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-name {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.2;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.account-name small {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+/* ==========================================================================
+   WORKSPACE MAIN BODY & HEADINGS
+   ========================================================================== */
+
+.workspace {
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #10b981;
+  margin-bottom: 4px;
+}
+
+.page-heading h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 6px 0;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-heading p {
+  color: var(--muted-foreground);
+  font-size: 0.92rem;
+  margin: 0;
+  max-width: 650px;
+}
+
+.heading-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.export-btn {
+  font-size: 0.85rem;
+}
+
+.new-btn {
+  background: #10b981;
+  color: #022c22;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+}
+
+.new-btn:hover {
+  background: #059669;
+}
+
+/* Period bar */
+.period-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.view-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-tabs .selected {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--foreground);
+  padding: 6px 12px;
+  background: var(--secondary);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.view-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.84rem;
+  color: var(--muted-foreground);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.view-tab-btn:hover {
+  color: #10b981;
+}
+
+.period-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.demo-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #10b981;
+}
+
+.pulse-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.period-select-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+}
+
+.period-select-wrap select {
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  font-size: 0.82rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.period-caption {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-transform: capitalize;
+}
+
+.custom-dates {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.82rem;
+}
+
+.custom-dates input {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+}
+
+/* ==========================================================================
+   STAT CARDS
+   ========================================================================== */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.finance-theme.light .stat-card:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card.balance-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.finance-theme.light .stat-card.balance-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, #ffffff 100%);
+}
+
+.stat-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon.income {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.stat-icon.expense {
+  background: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+}
+
+.stat-icon.violet {
+  background: rgba(139, 92, 246, 0.12);
+  color: #8b5cf6;
+}
+
+.stat-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--foreground);
+  margin-bottom: 4px;
+}
+
+.hide-balance-btn {
+  color: var(--muted-foreground);
+  height: 28px;
+  width: 28px;
+}
+
+.stat-card p {
+  font-size: 0.74rem;
+  color: var(--muted-foreground);
+  margin: 0 0 16px 0;
+}
+
+.stat-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.stat-foot.income {
+  color: #10b981;
+}
+
+.stat-foot.expense {
+  color: #f43f5e;
+}
+
+.stat-foot.violet {
+  color: #8b5cf6;
+}
+
+.sparkline {
+  width: 60px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   CHARTS & PANELS
+   ========================================================================== */
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.panel-heading h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-heading p {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.chart-period {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  background: var(--secondary);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+  margin-bottom: 12px;
+}
+
+.chart-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.income-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+}
+
+.expense-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f43f5e;
+}
+
+.area-chart {
+  width: 100%;
+  height: 260px;
+}
+
+.chart-bottom {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  color: var(--muted-foreground);
+}
+
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-right: 6px;
+}
+
+.income {
+  color: #10b981 !important;
+}
+
+.expense {
+  color: #f43f5e !important;
+}
+
+/* Donut chart */
+.donut-wrap {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.donut-center span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.donut-center strong {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--foreground);
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.category-tag-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.category-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.category-row strong {
+  font-weight: 600;
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+.category-row small {
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  min-width: 32px;
+  text-align: right;
+}
+
+.no-expenses {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  padding: 12px 0;
+}
+
+/* ==========================================================================
+   TRANSACTIONS TABLE
+   ========================================================================== */
+
+.lower-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.transactions-panel {
+  padding: 24px;
+}
+
+.count-badge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--secondary);
+  color: var(--muted-foreground);
+  font-weight: 600;
+}
+
+.view-all-link {
+  font-size: 0.82rem;
+  gap: 6px;
+  color: #10b981;
+}
+
+.type-select {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  outline: none;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+
+thead th {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.finance-theme.light tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+tbody td {
+  padding: 14px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.tx-desc {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tx-type-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tx-type-icon.income {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.tx-type-icon.expense {
+  background: rgba(244, 63, 94, 0.12);
+  color: #f43f5e;
+}
+
+.tx-desc strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.tx-desc small {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+
+.status-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.status-badge.completed {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+}
+
+.empty-row {
+  text-align: center;
+  padding: 40px !important;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+
+/* ==========================================================================
+   GOALS & BUDGETS
+   ========================================================================== */
+
+.goals-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.goal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.goal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.goal-header strong {
+  font-size: 0.95rem;
+  color: var(--foreground);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--secondary);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.progress-fill.over {
+  background: #f43f5e;
+}
+
+.goal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+}
+
+.goal-card.image-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.goal-image {
+  height: 160px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+
+.goal-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(9, 13, 22, 0.9) 100%);
+}
+
+.goal-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.goal-content strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.goal-content span {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.goal-card.image-card .progress-bar {
+  margin: 0 16px;
+  width: calc(100% - 32px);
+}
+
+.goal-card.image-card .goal-footer {
+  padding: 0 16px 16px 16px;
+}
+
+/* ==========================================================================
+   SETTINGS
+   ========================================================================== */
+
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.settings-panel {
+  max-width: 700px;
+}
+
+.settings-panel h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 16px 0;
+}
+
+.settings-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin-bottom: 2px;
+}
+
+/* Form inputs in modals */
+.form-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--foreground);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-input:focus {
+  border-color: #10b981;
+}
+
+/* ==========================================================================
+   RESPONSIVE QUERIES
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   MCP ASSISTANT & CHAT
+   ========================================================================== */
+
+.mcp-chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.mcp-sandbox-banner {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--foreground);
+}
+
+.live-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.mcp-servers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.mcp-server-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.server-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.server-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.server-badge.plaid {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.server-badge.pluggy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.server-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.server-status.active {
+  color: #10b981;
+}
+
+.server-desc {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.server-desc code,
+.server-meta code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  background: var(--secondary);
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: #10b981;
+}
+
+.server-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.chat-messages-area {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  min-height: 440px;
+  max-height: 600px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chat-message {
+  display: flex;
+  gap: 12px;
+  max-width: 88%;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.chat-message.assistant {
+  align-self: flex-start;
+}
+
+.chat-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.chat-message.assistant .chat-avatar {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #022c22;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+}
+
+.chat-message.user .chat-avatar {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.chat-bubble {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-message.user .chat-bubble {
+  background: #10b981;
+  color: #022c22;
+  border-color: #10b981;
+  font-weight: 500;
+}
+
+.chat-message.user .chat-meta {
+  color: rgba(2, 44, 34, 0.7);
+}
+
+.chat-message.user .chat-meta strong {
+  color: #022c22;
+}
+
+.chat-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.chat-meta strong {
+  color: var(--foreground);
+}
+
+.message-content {
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.tool-call-banner {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tool-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.tool-tag code {
+  font-family: "JetBrains Mono", monospace;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.server-source {
+  font-size: 0.68rem;
+  color: var(--muted-foreground);
+}
+
+.tool-payload {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.tool-payload code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  color: #a7f3d0;
+  word-break: break-all;
+}
+
+.mcp-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin-top: 6px;
+}
+
+.mcp-table {
+  width: 100%;
+  font-size: 0.78rem;
+  border-collapse: collapse;
+}
+
+.mcp-table th {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.mcp-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+}
+
+.mcp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: typingBounce 1s infinite alternate;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  from {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.quick-prompts-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-prompts-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.prompt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--foreground);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.prompt-chip:hover {
+  background: var(--secondary);
+  border-color: #10b981;
+  color: #10b981;
+  transform: translateY(-1px);
+}
+
+.chat-input-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 8px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-input-form:focus-within {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.chat-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.88rem;
+  color: var(--foreground);
+}
+
+.chat-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.send-button {
+  background: #10b981;
+  color: #022c22;
+  font-weight: 600;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .mcp-servers-grid {
+    grid-template-columns: 1fr;
+  }
+  .chat-message {
+    max-width: 96%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 260px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .sidebar.mobile-open {
+    left: 0;
+  }
+
+  .mobile-menu {
+    display: inline-flex;
+  }
+
+  .workspace {
+    padding: 20px 16px;
+  }
+
+  .topbar {
+    padding: 0 16px;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .global-search {
+    display: none;
+  }
+
+  .settings-info-grid {
+    grid-template-columns: 1fr;
+  }
 }

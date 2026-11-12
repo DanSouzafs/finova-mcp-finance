@@ -1,6 +1,8 @@
 {
-  "title": "Finova",
-  "description": "A modern finance dashboard with AI-assisted insights and MCP integrations.",
-  "author": "DanSouzafs",
-  "stack": ["React", "Vite", "TypeScript", "Tailwind CSS", "Recharts"]
+  "name": "finova",
+  "description": "Plataforma inteligente de gestão financeira pessoal com fluxo de caixa, orçamentos, metas e relatórios detalhados.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
