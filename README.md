@@ -115,6 +115,7 @@ finova/
 │   ├── assets/              # Imagens e recursos visuais (metas, badges)
 │   ├── components/
 │   │   ├── finance/
+│   │   │   ├── auth.tsx           # Autenticação e acesso à aplicação
 │   │   │   ├── mcp-assistant.tsx # Chat inteligente integrado ao Model Context Protocol
 │   │   │   ├── provider.tsx      # Provedor de contexto e gerenciamento de estado
 │   │   │   └── workspace.tsx     # Interface principal, Dashboard, extrato e metas

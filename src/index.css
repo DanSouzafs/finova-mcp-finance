@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
 @layer base {
   :root {
     --background: #090d16;
@@ -29,7 +51,10 @@
     --rose: #f43f5e;
   }
 
-  .finance-theme.light {
+  .finance-theme.light,
+  html.light,
+  html.light body,
+  html.light .finance-theme {
     --background: #f8fafc;
     --foreground: #0f172a;
     --card: #ffffff;
@@ -38,14 +63,14 @@
     --popover-foreground: #0f172a;
     --primary: #059669;
     --primary-foreground: #ffffff;
-    --secondary: #f1f5f9;
-    --secondary-foreground: #1e293b;
+    --secondary: #e2e8f0;
+    --secondary-foreground: #0f172a;
     --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --accent: #f1f5f9;
-    --accent-foreground: #1e293b;
-    --border: rgba(0, 0, 0, 0.08);
-    --input: rgba(0, 0, 0, 0.08);
+    --muted-foreground: #475569;
+    --accent: #e2e8f0;
+    --accent-foreground: #0f172a;
+    --border: #cbd5e1;
+    --input: #cbd5e1;
   }
 }
 
@@ -513,6 +538,269 @@ body {
 
 .new-btn:hover {
   background: #059669;
+}
+
+/* ==========================================================================
+   BUTTON VISIBILITY IN LIGHT MODE
+   ========================================================================== */
+
+.finance-theme.light .new-btn,
+.finance-theme.light .btn-default,
+.finance-theme.light button.btn-default {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  border: 1px solid #047857 !important;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25) !important;
+}
+
+.finance-theme.light .new-btn:hover,
+.finance-theme.light .btn-default:hover,
+.finance-theme.light button.btn-default:hover {
+  background-color: #047857 !important;
+}
+
+.finance-theme.light .export-btn,
+.finance-theme.light .btn-outline,
+.finance-theme.light button.btn-outline {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  font-weight: 600;
+}
+
+.finance-theme.light .export-btn:hover,
+.finance-theme.light .btn-outline:hover,
+.finance-theme.light button.btn-outline:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .btn-secondary,
+.finance-theme.light button.btn-secondary {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  font-weight: 600;
+}
+
+.finance-theme.light .btn-secondary:hover,
+.finance-theme.light button.btn-secondary:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .btn-ghost,
+.finance-theme.light button.btn-ghost {
+  color: #334155 !important;
+}
+
+.finance-theme.light .btn-ghost:hover,
+.finance-theme.light button.btn-ghost:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .theme-toggle,
+.finance-theme.light .notification-icon,
+.finance-theme.light .account-trigger,
+.finance-theme.light .mobile-menu,
+.finance-theme.light .hide-balance-btn,
+.finance-theme.light .action-btn {
+  color: #334155 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+.finance-theme.light .theme-toggle:hover,
+.finance-theme.light .notification-icon:hover,
+.finance-theme.light .account-trigger:hover,
+.finance-theme.light .mobile-menu:hover,
+.finance-theme.light .hide-balance-btn:hover,
+.finance-theme.light .action-btn:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .account-name {
+  color: #0f172a !important;
+}
+
+.finance-theme.light .account-name small {
+  color: #64748b !important;
+}
+
+.finance-theme.light .nav-item {
+  color: #475569 !important;
+}
+
+.finance-theme.light .nav-item:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .nav-item.active {
+  background-color: rgba(5, 150, 105, 0.12) !important;
+  color: #059669 !important;
+  border: 1px solid rgba(5, 150, 105, 0.25) !important;
+  font-weight: 600;
+}
+
+.finance-theme.light .collapse-button {
+  color: #64748b !important;
+}
+
+.finance-theme.light .collapse-button:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .view-tabs .selected {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+.finance-theme.light .view-tab-btn {
+  color: #475569 !important;
+  background-color: transparent !important;
+}
+
+.finance-theme.light .view-tab-btn:hover {
+  background-color: #f1f5f9 !important;
+  color: #059669 !important;
+}
+
+.finance-theme.light .period-select-wrap {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+.finance-theme.light .period-select-wrap select {
+  color: #0f172a !important;
+}
+
+.finance-theme.light .global-search {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+.finance-theme.light .global-search input {
+  color: #0f172a !important;
+}
+
+.finance-theme.light .prompt-chip {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #1e293b !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.finance-theme.light .prompt-chip:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #059669 !important;
+  color: #059669 !important;
+}
+
+.finance-theme.light .send-button {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+}
+
+.finance-theme.light .send-button:hover {
+  background-color: #047857 !important;
+}
+
+.finance-theme.light .chat-input-form {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.finance-theme.light .chat-input {
+  color: #0f172a !important;
+}
+
+.finance-theme.light .mcp-sandbox-banner {
+  background-color: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  color: #166534 !important;
+}
+
+.finance-theme.light .chat-messages-area {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.finance-theme.light .chat-bubble {
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .chat-message.user .chat-bubble {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+}
+
+.finance-theme.light .chat-message.user .chat-meta {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.finance-theme.light .chat-message.user .chat-meta strong {
+  color: #ffffff !important;
+}
+
+.finance-theme.light .tool-call-banner {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.finance-theme.light .tool-tag {
+  color: #0284c7 !important;
+}
+
+.finance-theme.light .tool-tag code {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+.finance-theme.light .mcp-table th {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.finance-theme.light .mcp-table td {
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+.finance-theme.light .form-input {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.finance-theme.light .form-input:focus {
+  border-color: #059669 !important;
+}
+
+.finance-theme.light .settings-tab-btn {
+  color: #475569 !important;
+}
+
+.finance-theme.light .settings-tab-btn:hover {
+  color: #0f172a !important;
 }
 
 /* Period bar */
@@ -1704,6 +1992,305 @@ tbody td {
   height: 36px;
   padding: 0 16px;
   border-radius: 8px;
+}
+
+/* ==========================================================================
+   AUTH SCREEN (LOGIN / CADASTRO)
+   ========================================================================== */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.auth-topbar {
+  height: 70px;
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--card);
+}
+
+.auth-main-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 40px 24px;
+  gap: 48px;
+  align-items: center;
+}
+
+.auth-hero-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #10b981;
+  width: fit-content;
+}
+
+.auth-hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.auth-hero-desc {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 500px;
+}
+
+.auth-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.feature-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.finance-theme.light .feature-icon {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+}
+
+.feature-item strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--foreground);
+  margin-bottom: 2px;
+}
+
+.feature-item p {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.auth-trust-card {
+  margin-top: 10px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  max-width: 480px;
+}
+
+.auth-form-pane {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.finance-theme.light .auth-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.auth-tab-btn {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.auth-tab-btn.active {
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.finance-theme.light .auth-tab-btn.active {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.auth-card-header {
+  margin-bottom: 20px;
+}
+
+.auth-card-header h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 6px 0;
+}
+
+.auth-card-header p {
+  font-size: 0.84rem;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--muted-foreground);
+  pointer-events: none;
+}
+
+.input-wrap input {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--foreground);
+  font-size: 0.88rem;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.finance-theme.light .input-wrap input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.input-wrap input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18);
+}
+
+.pass-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  padding: 2px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0 16px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--border);
+}
+
+.auth-divider span {
+  padding: 0 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.auth-footer-note {
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .auth-main-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px 16px;
+  }
+  .auth-hero-title {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
