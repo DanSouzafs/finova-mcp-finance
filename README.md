@@ -85,7 +85,7 @@ O **Finova** foi concebido para entregar clareza, velocidade e inteligência no 
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/DanSouzafs/finova.git
+   git clone https://github.com/seu-usuario/finova.git
    cd finova
    ```
 
@@ -136,3 +136,14 @@ finova/
 ## 📝 Licença
 
 Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 🖼️ Capturas de Tela
+
+### Visão Geral do Dashboard
+![Visão geral do dashboard](./01-dashboard-overview.png)
+
+### Lista de Transações
+![Lista de transações](./02-transactions-list.png)
+
+### Metas e Orçamentos
+![Metas e orçamentos](./03-mpc-budgets.png)
