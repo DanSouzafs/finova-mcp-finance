@@ -1,0 +1,6 @@
+{
+  "title": "Finova",
+  "description": "A modern finance dashboard with AI-assisted insights and MCP integrations.",
+  "author": "DanSouzafs",
+  "stack": ["React", "Vite", "TypeScript", "Tailwind CSS", "Recharts"]
+}

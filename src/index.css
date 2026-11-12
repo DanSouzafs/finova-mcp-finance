@@ -1,0 +1,307 @@
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  Bell,
+  ChevronDown,
+  CreditCard,
+  Landmark,
+  MoonStar,
+  Search,
+  ShieldCheck,
+  Target,
+  TrendingUp,
+  Wallet,
+} from 'lucide-react';
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { useFinance } from './provider';
+
+const donutData = [
+  { name: 'Housing', value: 28, color: '#22c55e' },
+  { name: 'Food', value: 22, color: '#14b8a6' },
+  { name: 'Transport', value: 18, color: '#f59e0b' },
+  { name: 'Lifestyle', value: 32, color: '#8b5cf6' },
+];
+
+export function Workspace() {
+  const { accounts, transactions, budgetItems, goals, cashFlow, metricCards } = useFinance();
+
+  return (
+    <div className="min-h-screen bg-[#020817] px-4 py-8 text-slate-100 md:px-8">
+      <div className="mx-auto max-w-7xl">
+        <header className="mb-8 flex flex-col gap-4 rounded-[28px] border border-white/10 bg-slate-950/60 p-4 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300 shadow-lg shadow-emerald-500/10">
+              <Landmark className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-slate-400">Finance OS</p>
+              <h1 className="text-2xl font-semibold">Finova</h1>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-300 md:flex">
+              <Search className="h-4 w-4 text-slate-400" />
+              Search transactions
+            </div>
+            <button className="rounded-full border border-slate-700 bg-slate-900/80 p-2.5 text-slate-200">
+              <Bell className="h-4 w-4" />
+            </button>
+            <button className="rounded-full border border-slate-700 bg-slate-900/80 p-2.5 text-slate-200">
+              <MoonStar className="h-4 w-4" />
+            </button>
+          </div>
+        </header>
+
+        <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {metricCards.map((card) => (
+            <div key={card.label} className="rounded-3xl border border-white/10 bg-[#111827]/80 p-4 shadow-xl shadow-slate-950/20">
+              <div className="mb-3 flex items-center justify-between text-slate-400">
+                <span className="text-sm">{card.label}</span>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-1 text-[10px] font-medium text-emerald-300">
+                  {card.change}
+                </span>
+              </div>
+              <div className="text-2xl font-semibold text-white">{card.value}</div>
+            </div>
+          ))}
+        </section>
+
+        <section className="mb-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Overview</p>
+                <h2 className="mt-2 text-2xl font-semibold">Cash flow</h2>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/15 bg-emerald-500/10 px-3 py-1 text-sm text-emerald-300">
+                <TrendingUp className="h-4 w-4" />
+                +18.2% YoY
+              </div>
+            </div>
+
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={cashFlow}>
+                  <defs>
+                    <linearGradient id="incomeFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#34d399" stopOpacity={0.5} />
+                      <stop offset="100%" stopColor="#34d399" stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="expenseFill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#a78bfa" stopOpacity={0.4} />
+                      <stop offset="100%" stopColor="#a78bfa" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid stroke="#1f2937" vertical={false} />
+                  <XAxis dataKey="month" stroke="#64748b" tickLine={false} axisLine={false} />
+                  <YAxis stroke="#64748b" tickLine={false} axisLine={false} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: '#020817',
+                      border: '1px solid rgba(148, 163, 184, 0.2)',
+                      borderRadius: '14px',
+                    }}
+                  />
+                  <Area type="monotone" dataKey="income" stroke="#34d399" fill="url(#incomeFill)" strokeWidth={3} />
+                  <Area type="monotone" dataKey="expense" stroke="#8b5cf6" fill="url(#expenseFill)" strokeWidth={3} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Breakdown</p>
+                <h2 className="mt-2 text-2xl font-semibold">Expense mix</h2>
+              </div>
+            </div>
+
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={donutData} dataKey="value" nameKey="name" innerRadius={60} outerRadius={95} paddingAngle={4}>
+                    {donutData.map((entry) => (
+                      <cell key={entry.name} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    formatter={(value: number) => `${value}%`}
+                    contentStyle={{
+                      backgroundColor: '#020817',
+                      border: '1px solid rgba(148, 163, 184, 0.2)',
+                      borderRadius: '14px',
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+
+            <div className="mt-2 space-y-2">
+              {donutData.map((item) => (
+                <div key={item.name} className="flex items-center justify-between text-sm text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                    {item.name}
+                  </div>
+                  <span>{item.value}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Transactions</p>
+                <h2 className="mt-2 text-2xl font-semibold">Recent activity</h2>
+              </div>
+              <button className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-200">
+                This month <ChevronDown className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="overflow-hidden rounded-2xl border border-slate-800">
+              <table className="min-w-full divide-y divide-slate-800 text-left">
+                <thead className="bg-slate-950/80 text-xs uppercase tracking-[0.2em] text-slate-400">
+                  <tr>
+                    <th className="px-4 py-3">Name</th>
+                    <th className="px-4 py-3">Date</th>
+                    <th className="px-4 py-3">Type</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3 text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800 text-sm text-slate-200">
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.id} className="bg-slate-900/30 hover:bg-slate-900/60">
+                      <td className="px-4 py-3">{transaction.description}</td>
+                      <td className="px-4 py-3 text-slate-400">{transaction.date}</td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs ${transaction.type === 'income' ? 'bg-emerald-500/10 text-emerald-300' : 'bg-rose-500/10 text-rose-300'}`}>
+                          {transaction.type === 'income' ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                          {transaction.type}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-slate-300">{transaction.status}</td>
+                      <td className={`px-4 py-3 text-right font-medium ${transaction.amount > 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
+                        {transaction.amount > 0 ? '+' : '-'}R${Math.abs(transaction.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Accounts</p>
+                  <h2 className="mt-2 text-2xl font-semibold">Balance</h2>
+                </div>
+                <div className="rounded-full bg-emerald-500/10 p-2 text-emerald-300">
+                  <Wallet className="h-4 w-4" />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {accounts.map((account) => (
+                  <div key={account.id} className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-950/60 p-3">
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-xl bg-slate-800 p-2 text-slate-200">
+                        <CreditCard className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">{account.name}</p>
+                        <p className="text-xs text-slate-400">{account.type}</p>
+                      </div>
+                    </div>
+                    <span className={`font-semibold ${account.balance >= 0 ? 'text-emerald-300' : 'text-rose-300'}`}>
+                      {account.balance >= 0 ? 'R$' : '-R$'} {Math.abs(account.balance).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Budgets</p>
+                  <h2 className="mt-2 text-2xl font-semibold">Spending</h2>
+                </div>
+                <div className="rounded-full bg-violet-500/10 p-2 text-violet-300">
+                  <ShieldCheck className="h-4 w-4" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {budgetItems.map((item) => (
+                  <div key={item.category}>
+                    <div className="mb-1 flex items-center justify-between text-sm text-slate-300">
+                      <span>{item.category}</span>
+                      <span>{item.spent.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} / {item.limit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                    </div>
+                    <div className="h-2.5 rounded-full bg-slate-800">
+                      <div
+                        className="h-2.5 rounded-full"
+                        style={{ width: `${Math.min((item.spent / item.limit) * 100, 100)}%`, backgroundColor: item.color }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[30px] border border-white/10 bg-[#0f172a]/80 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Goals</p>
+                  <h2 className="mt-2 text-2xl font-semibold">Dream path</h2>
+                </div>
+                <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-300">
+                  <Target className="h-4 w-4" />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {goals.map((goal) => (
+                  <div key={goal.title} className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/60">
+                    <div className="h-28 bg-cover bg-center" style={{ backgroundImage: `url(${goal.image})` }} />
+                    <div className="p-3">
+                      <div className="mb-2 flex items-center justify-between">
+                        <h3 className="font-medium text-white">{goal.title}</h3>
+                        <span className="text-xs text-slate-400">{Math.round((goal.current / goal.target) * 100)}%</span>
+                      </div>
+                      <div className="h-2.5 rounded-full bg-slate-800">
+                        <div className="h-2.5 rounded-full" style={{ width: `${Math.min((goal.current / goal.target) * 100, 100)}%`, backgroundColor: goal.accent }} />
+                      </div>
+                      <div className="mt-2 text-sm text-slate-300">
+                        R$ {goal.current.toLocaleString('pt-BR')} / R$ {goal.target.toLocaleString('pt-BR')}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
